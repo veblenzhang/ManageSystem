@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#submit").click(function () {
+                var objId = $("#objId").val();
+                var objName = $("#objName").val();
+                var dbObjName = $("#dbObjName").val();
+                var isPredefined = $("#isPredefined").val();
+                var ei = $("#ei").val();
+                var creator = $("#creator").val();
+                //var createTime=$("#createTime").val();
+                var createTime = new Date();
+                var updator = $("#updator").val();
+                //var updateTime=$("#updateTime").val();
+                var updateTime = new Date();
+                var isDelete = $("#isDelete").val();
+                var jsonData = JSON.stringify({
+                    objId: objId,
+                    updator: updator,
+                    objName: objName,
+                    dbObjName: dbObjName,
+                    isPredefined: isPredefined,
+                    ei: ei,
+                    creator: creator,
+                    createTime: createTime,
+                    updateTime: updateTime,
+                    isDelete: isDelete,
+                });
+                //alert(jsonData);
+
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: " Template/updateTemplateSetting",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+
+                        "list": [
+                            {
+                                "condition": "CustomerTrade.CustomerTradeID=TradePayment.CustomerTradeID",
+                                "hiddenCondition": "TradePayment.Status != 99,CustomerTrade.Status != 99",
+                                "displayName": "订单",
+                                "objID": "BI_171736364587614208",
+                                "templateID": "BI_171993719531307009",
+                                "tableName": "CustomerTrade",
+                                "isShow": "true"
+                            },
+                            {
+                                "condition": "TradePayment.IsDeleted=0",
+                                "hiddenCondition": "",
+                                "displayName": "回款",
+                                "objID": "BI_171736364688277504",
+                                "templateID": "BI_171993719531307009",
+                                "tableName": "TradePayment",
+                                "isShow": "true"
+                            }
+                        ]
+
+                    }),
+                    cache: false,
+                    success: function (data) {
+                        alert("success");
+                    },
+                    error: function (data) {
+                        alert("error");
+                    }
+                });
+
+            });
+        });
+
+    </script>
+</head>
+<body>
+<div>
+    objId:<input type="text" name="'objId" id="objId"/><br>
+
+    objName:<input type="text" name="'objName" id="objName"/><br>
+
+    dbObjName:<input type="text" name="dbObjName'" id="dbObjName"/><br>
+
+    isPredefined:<input type="text" name="isPredefined'" id="isPredefined"/><br>
+
+    ei:<input type="text" name="ei" id="ei"/><br>
+
+    creator:<input type="text" name="creator'" id="creator"/><br>
+
+    createTime:<input type="text" name="'createTime" id="createTime"/><br>
+
+    updator:<input type="text" name="updator'" id="updator"/><br>
+
+    updateTime:<input type="text" name="updateTime" id="updateTime"/><br>
+
+    isDelete:<input type="text" name="isDelete'" id="isDelete"/><br>
+    <button id="submit">提交</button>
+</div>
+
+</body>
+</html>

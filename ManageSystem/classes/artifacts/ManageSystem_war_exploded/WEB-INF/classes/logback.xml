@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <jmxConfigurator/>
+    <!-- 控制台输出日志 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%-5level^|%d{yyyy-MM-dd HH:mm:ss.SSS}^|${project.name}^|%class.%method^|-
+                %msg%n
+            </pattern>
+        </layout>
+    </appender>
+    <!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>info.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>info.log.%i.bak</FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>12</MaxIndex>
+        </rollingPolicy>
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>100MB</MaxFileSize>
+        </triggeringPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%-5level^|%d{yyyy-MM-dd HH:mm:ss.SSS}^|${project.name}^|%class.%method^| %msg%n</Pattern>
+        </layout>
+    </appender>
+    <!--这里指定logger name 是为jmx设置日志级别做铺垫 -->
+
+
+    <logger name="com.fxiaoke.biz" additivity="false">
+        <level value="debug"/>
+       <!-- <appender-ref ref="STDOUT"/>
+        -->
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="com.ibatis" level="DEBUG" />
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG" />
+    <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG" />
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" />
+    <logger name="java.sql.Connection" level="DEBUG" />
+    <logger name="java.sql.Statement" level="DEBUG" />
+    <logger name="java.sql.PreparedStatement" level="DEBUG" />
+    <logger name="dao" level="error"/>
+
+    <logger name="org.mybatis">
+        <level value="debug"/>
+    </logger>
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+
+
+</configuration>
